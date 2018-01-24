@@ -4,12 +4,19 @@ import ReactDOM from 'react-dom'
 const App = () => {
 
     const kurssi = 'Half Stack -sovelluskehitys';
-    const osa1 = 'Reactin perusteet';
-    const tehtavia1 = 10;
-    const osa2 = 'Tiedonvälitys propseilla';
-    const tehtavia2 = 7;
-    const osa3 = 'Komponenttien tila';
-    const tehtavia3 = 14;
+    const osa1 = {
+        nimi: 'Reactin perusteet',
+        tehtavia: 10
+    };
+
+    const osa2 = {
+        nimi: 'Tiedonvälitys propseilla',
+        tehtavia: 7
+    };
+    const osa3 = {
+        nimi: 'Komponenttien tila',
+        tehtavia: 14
+    };
 
     const Otsikko = (props) => {
         return (
@@ -19,16 +26,16 @@ const App = () => {
 
     const Osa = (props) => {
         return (
-            <p>{props.coursePart} {props.exerciseAmount}</p>
+            <p>{props.coursePart.nimi} {props.coursePart.tehtavia}</p>
         )
     };
 
     const Sisalto = (props) => {
         return (
             <div>
-                <Osa coursePart={props.coursePart1} exerciseAmount={props.exerciseAmount1} />
-                <Osa coursePart={props.coursePart2} exerciseAmount={props.exerciseAmount2} />
-                <Osa coursePart={props.coursePart3} exerciseAmount={props.exerciseAmount3} />
+                <Osa coursePart={props.coursePart1} />
+                <Osa coursePart={props.coursePart2} />
+                <Osa coursePart={props.coursePart3} />
             </div>
         )
     };
@@ -42,8 +49,8 @@ const App = () => {
     return (
         <div>
             <Otsikko course={kurssi}/>
-            <Sisalto coursePart1={osa1} exerciseAmount1={tehtavia1} coursePart2={osa2} exerciseAmount2={tehtavia2} coursePart3={osa3} exerciseAmount3={tehtavia3}/>
-            <Yhteensa totalExerciseAmount={tehtavia1+tehtavia2+tehtavia3}/>
+            <Sisalto coursePart1={osa1} coursePart2={osa2} coursePart3={osa3}/>
+            <Yhteensa totalExerciseAmount={osa1.tehtavia+osa2.tehtavia+osa3.tehtavia}/>
         </div>
     )
 };
