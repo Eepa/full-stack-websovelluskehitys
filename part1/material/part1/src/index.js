@@ -1,13 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Hello = (props) => {
-    return (
-        <div>
-            <p>Hello {props.name}, you are {props.age} years old</p>
-        </div>
-    )
-};
+class Hello extends React.Component {
+
+
+
+    render() {
+        const {name, age} = this.props;
+        const bornYear = () => 1900 + new Date().getYear() - age;
+
+
+        return (
+            <div>
+                <p>
+                    Hello {name}, you are {age} years old <br />
+                    So you were propably born {bornYear()}
+                </p>
+            </div>
+        )
+    }
+}
 
 const Footer = () => {
     return (
