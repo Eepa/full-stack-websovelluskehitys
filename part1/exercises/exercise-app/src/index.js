@@ -17,12 +17,18 @@ const App = () => {
         )
     };
 
+    const Osa = (props) => {
+        return (
+            <p>{props.coursePart} {props.exerciseAmount}</p>
+        )
+    };
+
     const Sisalto = (props) => {
         return (
             <div>
-                <p>{props.coursePart1} {props.exerciseAmount1}</p>
-                <p>{props.coursePart2} {props.exerciseAmount2}</p>
-                <p>{props.coursePart3} {props.exerciseAmount3}</p>
+                <Osa coursePart={props.coursePart1} exerciseAmount={props.exerciseAmount1} />
+                <Osa coursePart={props.coursePart2} exerciseAmount={props.exerciseAmount2} />
+                <Osa coursePart={props.coursePart3} exerciseAmount={props.exerciseAmount3} />
             </div>
         )
     };
@@ -32,7 +38,7 @@ const App = () => {
             <p>yhteensä {props.totalExerciseAmount} tehtävää</p>
         )
     };
-    
+
     return (
         <div>
             <Otsikko course={kurssi}/>
