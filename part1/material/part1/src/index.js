@@ -1,24 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const App = (props) => {
-  const {counter} = props;
-  return (
-      <div>{counter.value}</div>
-  )
-};
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            counter: 1
+        };
 
-const counter = {
-    value: 1
-};
+        setInterval(() => {
+            this.setState({
+                counter: this.state.counter + 1
+            });
+        }, 1000)
+    }
 
-const renderView = () => {
-    ReactDOM.render(
-        <App counter={counter}/>, document.getElementById('root')
-    );
-};
+    render() {
+        console.log("Rendering!", this.state.counter);
+        return (
 
-setInterval(() => {
-    renderView();
-    counter.value += 1;
-}, 1000);
+            <div>{this.state.counter}</div>
+        )
+    }
+}
+
+ReactDOM.render(
+    <App/>,
+    document.getElementById('root')
+);
