@@ -1,61 +1,54 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Display = ({counter}) => <div>{counter}</div>;
-
-const Button = ({handleClick, text}) => (
-  <button onClick={handleClick}>
-      {text}
-  </button>
-);
-
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            counter: 1
-        };
-        // this.addOne = this.addOne.bind(this);
-        // this.clear = this.clear.bind(this);
+            left: 0,
+            right: 0,
+            all: []
+        }
     }
 
-    setValue = (newValue) => () => { this.setState({counter: newValue})};
-
-
-    addOne = () =>  {
-        console.log(this);
-        this.setState(
-            {counter: this.state.counter + 1}
-        )
+    clickLeft = () => {
+        this.setState({
+            left: this.state.left + 1,
+            all: this.state.all.concat('v')
+        })
     };
 
-    clear = () => {
-        this.setState(
-            {counter: 0}
-        )
+    clickRight = () => {
+      this.setState({
+          right: this.state.right + 1,
+          all: this.state.all.concat('o')
+      })
     };
 
     render() {
+        const history = () => {
+            if(this.state.all.length === 0) {
+                return (
+                    <div>
+                        <em>You can use the app by pressing the buttons</em>
+                    </div>
+                )
+            }
+
+            return (
+                <div>
+                    Click history: {this.state.all.join(' ')}
+                </div>
+            )
+        };
         return (
             <div>
-                <Display counter={this.state.counter}/>
                 <div>
-
-                    <Button
-                        handleClick={this.setValue(this.state.counter + 1)}
-                        text={"Plus"}
-                    />
-
-                    <Button
-                        handleClick={this.setValue(this.state.counter - 1)}
-                        text={"Minus"}
-                    />
-
-                    <Button
-                        handleClick={this.setValue(0)}
-                        text={"Zero"}
-                    />
-
+                    {this.state.left}
+                    <button onClick={this.clickLeft}>Left</button>
+                    <button onClick={this.clickRight}>Right</button>
+                    {this.state.right}
+                    <div>{history()}</div>
                 </div>
             </div>
         )
