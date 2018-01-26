@@ -35,6 +35,25 @@ class App extends React.Component {
     };
 
     render() {
+        const average = () => {
+            let average = 0;
+            if(this.state.good !== 0 || this.state.bad !== 0) {
+                let totalFeedbacks = this.state.good + this.state.neutral + this.state.bad;
+                let sum = this.state.good - this.state.bad;
+                average = sum / totalFeedbacks;
+            }
+            return average.toFixed(1);
+        };
+
+        const positivePercent = () => {
+            let positivePercent = 0;
+            if(this.state.good !== 0) {
+                let totalFeedbacks = this.state.good + this.state.neutral + this.state.bad;
+                positivePercent = this.state.good / totalFeedbacks;
+            }
+            return (positivePercent * 100).toFixed(1);
+        };
+
         return (
             <div>
                 <Heading text="Anna palautetta"/>
@@ -48,6 +67,8 @@ class App extends React.Component {
                 <Feedback text="Hyvä" feedbackCount={this.state.good}/>
                 <Feedback text="Neutraali" feedbackCount={this.state.neutral}/>
                 <Feedback text="Huono" feedbackCount={this.state.bad}/>
+                <div>Keskiarvo {average()}</div>
+                <div>Positiivisia {positivePercent()} %</div>
             </div>
         )
     }
