@@ -5,6 +5,40 @@ const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</bu
 const Feedback = ({text, feedbackCount}) => <div>{text} {feedbackCount}</div>;
 const Heading = ({text}) => <h2>{text}</h2>;
 
+const Statistic = ({calculateStatistic, statisticName}) => {
+    return (
+        <div>{statisticName} {calculateStatistic()}</div>
+    )
+};
+
+const Statistics = ({good, neutral, bad}) => {
+    const average = () => {
+        let average = 0;
+        if(good !== 0 || bad !== 0) {
+            let totalFeedbacks = good + neutral + bad;
+            let sum = good - bad;
+            average = sum / totalFeedbacks;
+        }
+        return average.toFixed(1);
+    };
+
+    const positivePercent = () => {
+        let positivePercent = 0;
+        if(good !== 0) {
+            let totalFeedbacks = good + neutral + bad;
+            positivePercent = good / totalFeedbacks;
+        }
+        return (positivePercent * 100).toFixed(1) + "%";
+    };
+
+    return (
+        <div>
+            <Statistic calculateStatistic={average} statisticName="Keskiarvo"/>
+            <Statistic calculateStatistic={positivePercent} statisticName="Positiivisia"/>
+        </div>
+    )
+};
+
 
 class App extends React.Component {
     constructor(props) {
@@ -35,24 +69,6 @@ class App extends React.Component {
     };
 
     render() {
-        const average = () => {
-            let average = 0;
-            if(this.state.good !== 0 || this.state.bad !== 0) {
-                let totalFeedbacks = this.state.good + this.state.neutral + this.state.bad;
-                let sum = this.state.good - this.state.bad;
-                average = sum / totalFeedbacks;
-            }
-            return average.toFixed(1);
-        };
-
-        const positivePercent = () => {
-            let positivePercent = 0;
-            if(this.state.good !== 0) {
-                let totalFeedbacks = this.state.good + this.state.neutral + this.state.bad;
-                positivePercent = this.state.good / totalFeedbacks;
-            }
-            return (positivePercent * 100).toFixed(1);
-        };
 
         return (
             <div>
@@ -67,8 +83,7 @@ class App extends React.Component {
                 <Feedback text="Hyvä" feedbackCount={this.state.good}/>
                 <Feedback text="Neutraali" feedbackCount={this.state.neutral}/>
                 <Feedback text="Huono" feedbackCount={this.state.bad}/>
-                <div>Keskiarvo {average()}</div>
-                <div>Positiivisia {positivePercent()} %</div>
+                <Statistics good={this.state.good} neutral={this.state.neutral} bad={this.state.bad}/>
             </div>
         )
     }
