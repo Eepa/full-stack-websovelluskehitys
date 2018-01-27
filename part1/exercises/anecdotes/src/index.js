@@ -5,7 +5,8 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected: 0
+            selected: 0,
+            votes: new Array(props.anecdotes.length).fill(0)
         }
     }
 
@@ -21,11 +22,22 @@ class App extends React.Component {
         })
     };
 
+    voteAnecdote = () => {
+
+        const copyOfVotes = [...this.state.votes];
+        copyOfVotes[this.state.selected] += 1;
+        this.setState({
+            votes: copyOfVotes
+        })
+    };
+
     render() {
         return (
             <div>
-                {this.props.anecdotes[this.state.selected]}
+                <div>{this.props.anecdotes[this.state.selected]}</div>
+                <div>has {this.state.votes[this.state.selected]} votes</div>
                 <div>
+                    <button onClick={this.voteAnecdote}>Vote</button>
                     <button onClick={this.getNextAnecdote}>Next anecdote</button>
                 </div>
             </div>
