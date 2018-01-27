@@ -6,7 +6,10 @@ const Heading = ({text}) => <h2>{text}</h2>;
 
 const Statistic = ({statisticName, statisticNumber}) => {
     return (
-        <div>{statisticName} {statisticNumber}</div>
+        <tr>
+            <td>{statisticName}</td>
+            <td>{statisticNumber}</td>
+        </tr>
     )
 };
 
@@ -34,13 +37,15 @@ const Statistics = ({good, neutral, bad}) => {
 
     if(good !== 0 || neutral !== 0 || bad !== 0) {
         return (
-            <div>
+            <table>
+                <tbody>
                 <Statistic statisticName="Hyvä" statisticNumber={good}/>
                 <Statistic statisticName="Neutraali" statisticNumber={neutral}/>
                 <Statistic statisticName="Huono" statisticNumber={bad}/>
                 <Statistic statisticName="Keskiarvo" statisticNumber={average()}/>
                 <Statistic statisticName="Positiivisia" statisticNumber={positivePercent()}/>
-            </div>
+                </tbody>
+            </table>
         )
     }
 
