@@ -2,16 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>;
-const Feedback = ({text, feedbackCount}) => <div>{text} {feedbackCount}</div>;
 const Heading = ({text}) => <h2>{text}</h2>;
 
-const Statistic = ({calculateStatistic, statisticName}) => {
+const Statistic = ({statisticName, statisticNumber}) => {
     return (
-        <div>{statisticName} {calculateStatistic()}</div>
+        <div>{statisticName} {statisticNumber}</div>
     )
 };
 
 const Statistics = ({good, neutral, bad}) => {
+
     const average = () => {
         let average = 0;
         if(good !== 0 || bad !== 0) {
@@ -31,11 +31,21 @@ const Statistics = ({good, neutral, bad}) => {
         return (positivePercent * 100).toFixed(1) + "%";
     };
 
+
+    if(good !== 0 || neutral !== 0 || bad !== 0) {
+        return (
+            <div>
+                <Statistic statisticName="Hyvä" statisticNumber={good}/>
+                <Statistic statisticName="Neutraali" statisticNumber={neutral}/>
+                <Statistic statisticName="Huono" statisticNumber={bad}/>
+                <Statistic statisticName="Keskiarvo" statisticNumber={average()}/>
+                <Statistic statisticName="Positiivisia" statisticNumber={positivePercent()}/>
+            </div>
+        )
+    }
+
     return (
-        <div>
-            <Statistic calculateStatistic={average} statisticName="Keskiarvo"/>
-            <Statistic calculateStatistic={positivePercent} statisticName="Positiivisia"/>
-        </div>
+        <div>Ei yhtään palautetta annettu</div>
     )
 };
 
@@ -80,9 +90,6 @@ class App extends React.Component {
                 </div>
 
                 <Heading text="Statistiikka"/>
-                <Feedback text="Hyvä" feedbackCount={this.state.good}/>
-                <Feedback text="Neutraali" feedbackCount={this.state.neutral}/>
-                <Feedback text="Huono" feedbackCount={this.state.bad}/>
                 <Statistics good={this.state.good} neutral={this.state.neutral} bad={this.state.bad}/>
             </div>
         )
