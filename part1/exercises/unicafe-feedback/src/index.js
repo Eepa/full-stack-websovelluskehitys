@@ -60,22 +60,12 @@ class App extends React.Component {
         }
     }
 
-    addGoodFeedback = () => {
-        this.setState({
-            good: this.state.good + 1
-        })
-    };
-
-    addNeutralFeedback = () => {
-        this.setState({
-            neutral: this.state.neutral + 1
-        })
-    };
-
-    addBadFeedback = () => {
-        this.setState({
-            bad: this.state.bad + 1
-        })
+    addFeedback = (feedback) => {
+        return () => {
+            this.setState({
+                [feedback]: this.state[feedback] + 1
+            })
+        }
     };
 
     render() {
@@ -84,9 +74,9 @@ class App extends React.Component {
             <div>
                 <Heading text="Anna palautetta"/>
                 <div>
-                    <Button handleClick={this.addGoodFeedback} text="Hyvä"/>
-                    <Button handleClick={this.addNeutralFeedback} text="Neutraali"/>
-                    <Button handleClick={this.addBadFeedback} text="Huono"/>
+                    <Button handleClick={this.addFeedback('good')} text="Hyvä"/>
+                    <Button handleClick={this.addFeedback('neutral')} text="Neutraali"/>
+                    <Button handleClick={this.addFeedback('bad')} text="Huono"/>
                 </div>
 
                 <Heading text="Statistiikka"/>
