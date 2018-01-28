@@ -22,7 +22,7 @@ class App extends React.Component {
         const notes = this.state.notes.concat(newNote);
 
         this.setState({
-            notes: notes,
+            notes,
             newNote: ''
         })
     };
