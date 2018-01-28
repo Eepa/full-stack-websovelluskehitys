@@ -21,18 +21,24 @@ const Sisalto = ({courseParts}) => {
     )
 };
 
-/*const Yhteensa = (props) => {
+const Yhteensa = ({courseParts}) => {
+
+    let taskSum = 0;
+    for(let i = 0; i < courseParts.length; i++) {
+        taskSum += courseParts[i].tehtavia;
+    }
+
     return (
-        <p>yhteensä {props.courseParts[0].tehtavia + props.courseParts[1].tehtavia + props.courseParts[2].tehtavia} tehtävää</p>
+        <p>yhteensä {taskSum} tehtävää</p>
     )
-};*/
+};
 
 const Kurssi = ({course}) => {
     return (
         <div>
             <Otsikko courseName={course.nimi}/>
             <Sisalto courseParts={course.osat}/>
-            {/*<Yhteensa courseParts={kurssi.osat}/>*/}
+            <Yhteensa courseParts={course.osat}/>
         </div>
     )
 };
@@ -65,7 +71,7 @@ const App = () => {
             {
                 id: 5,
                 nimi: 'Testiosa 2',
-                tehtavia: 2
+                tehtavia: 0
             }
         ]
     };
