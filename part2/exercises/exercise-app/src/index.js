@@ -23,10 +23,11 @@ const Sisalto = ({courseParts}) => {
 
 const Yhteensa = ({courseParts}) => {
 
-    let taskSum = 0;
-    for(let i = 0; i < courseParts.length; i++) {
-        taskSum += courseParts[i].tehtavia;
-    }
+    const calculateTaskSum = (taskSum, part) => {
+        return taskSum + part.tehtavia;
+    };
+
+    let taskSum = courseParts.reduce(calculateTaskSum, 0);
 
     return (
         <p>yhteensä {taskSum} tehtävää</p>
