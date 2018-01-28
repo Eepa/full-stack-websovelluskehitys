@@ -46,39 +46,60 @@ const Kurssi = ({course}) => {
 
 const App = () => {
 
-    const kurssi = {
-        nimi: 'Half Stack -sovelluskehitys',
-        osat: [
-            {
-                id: 1,
-                nimi: 'Reactin perusteet',
-                tehtavia: 10,
-            },
-            {
-                id: 2,
-                nimi: 'Tiedonvälitys propseilla',
-                tehtavia: 7
-            },
-            {
-                id: 3,
-                nimi: 'Komponenttien tila',
-                tehtavia: 14
-            },
-            {
-                id: 4,
-                nimi: 'Testiosa',
-                tehtavia: 10
-            },
-            {
-                id: 5,
-                nimi: 'Testiosa 2',
-                tehtavia: 0
-            }
-        ]
-    };
+    const kurssit = [
+        {
+            id: 1,
+            nimi: 'Half Stack -sovelluskehitys',
+            osat: [
+                {
+                    id: 1,
+                    nimi: 'Reactin perusteet',
+                    tehtavia: 10,
+                },
+                {
+                    id: 2,
+                    nimi: 'Tiedonvälitys propseilla',
+                    tehtavia: 7
+                },
+                {
+                    id: 3,
+                    nimi: 'Komponenttien tila',
+                    tehtavia: 14
+                },
+                {
+                    id: 4,
+                    nimi: 'Testiosa',
+                    tehtavia: 10
+                },
+                {
+                    id: 5,
+                    nimi: 'Testiosa 2',
+                    tehtavia: 0
+                }
+            ]
+        },
+        {
+            id: 2,
+            nimi: 'Node.js',
+            osat: [
+                {
+                    id: 4,
+                    nimi: 'Testiosa',
+                    tehtavia: 10
+                },
+                {
+                    id: 5,
+                    nimi: 'Testiosa 2',
+                    tehtavia: 0
+                }
+            ]
+        }
+    ];
 
     return (
-        <Kurssi course={kurssi}/>
+        <div>
+            {kurssit.map(course => <Kurssi key={course.id} course={course}/>)}
+        </div>
     )
 };
 
