@@ -7,6 +7,16 @@ const Person = ({person}) => {
     )
 };
 
+const Input = ({title, value, onChange}) => {
+    return (
+        <div>
+            {title}
+            <input value={value}
+                   onChange={onChange}/>
+        </div>
+    )
+};
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -80,33 +90,23 @@ class App extends React.Component {
 
         return (
             <div>
-                <h2>Puhelinluettelo</h2>
+                <h1>Puhelinluettelo</h1>
+
+                <h2>Numerot</h2>
+
+                <Input title="Rajaa näytettäviä: " value={this.state.filter} onChange={this.handleFilterChange}/>
+
+                {filteredPersons.map(person => <Person key={person.name} person={person} />)}
+
+                <h2>Lisää uusi</h2>
                 <form onSubmit={this.addNewPerson}>
-                    <div>
-                        Nimi:
-                        <input value={this.state.newName}
-                               onChange={this.handleNameChange}/>
-                    </div>
-                    <div>
-                        Numbero:
-                        <input value={this.state.newNumber}
-                               onChange={this.handleNumberChange}/>
-                    </div>
+                    <Input title="Nimi: " value={this.state.newName} onChange={this.handleNameChange}/>
+                    <Input title="Numero: " value={this.state.newNumber} onChange={this.handleNumberChange}/>
+
                     <div>
                         <button type="submit">Lisää</button>
                     </div>
                 </form>
-
-
-                <h2>Numerot</h2>
-
-                <div>
-                    Rajaa näytettäviä:
-                    <input value={this.state.filter}
-                           onChange={this.handleFilterChange} />
-                </div>
-
-                {filteredPersons.map(person => <Person key={person.name} person={person} />)}
 
             </div>
         )
