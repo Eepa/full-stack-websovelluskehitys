@@ -18,17 +18,26 @@ class App extends React.Component {
         }
     }
 
+    nameEquals = (person) => {
+      return person.name === this.state.newName;
+    };
+
     addNewPerson = (event) => {
         event.preventDefault();
-        const newPerson = {
-            name: this.state.newName
-        };
 
-        const persons = this.state.persons.concat(newPerson);
-        this.setState({
-            persons,
-            newName: ''
-        })
+        const personsContainsPersonWithName = this.state.persons.some(this.nameEquals);
+
+        if(this.state.newName !== '' && !personsContainsPersonWithName) {
+            const newPerson = {
+                name: this.state.newName
+            };
+            const persons = this.state.persons.concat(newPerson);
+
+            this.setState({
+                persons,
+                newName: ''
+            })
+        }
     };
 
     handleNameChange = (event) => {
