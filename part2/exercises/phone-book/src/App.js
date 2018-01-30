@@ -12,15 +12,19 @@ class App extends React.Component {
         super(props);
         this.state = {
             persons: [
-                { name: 'Arto Hellas', number: '123-123' }
+                { name: 'Arto Hellas', number: '040-123456' },
+                { name: 'Martti Tienari', number: '050-369369' },
+                { name: 'Arto Järvinen', number: '040-789987' },
+                { name: 'Lea Kutvonen', number: '040-258258' }
             ],
             newName: '',
-            newNumber: ''
+            newNumber: '',
+            filter: ''
         }
     }
 
     nameEquals = (person) => {
-      return person.name === this.state.newName;
+        return person.name === this.state.newName;
     };
 
     addNewPerson = (event) => {
@@ -49,6 +53,22 @@ class App extends React.Component {
         });
     };
 
+    filterPerson = (person) => {
+        const filterValue = this.state.filter.toLowerCase();
+        const lowerCaseName = person.name.toLowerCase();
+        const lowerCaseNumber = person.number.toLowerCase();
+
+        const nameContains = lowerCaseName.indexOf(filterValue) !== -1;
+        const numberContains = lowerCaseNumber.indexOf(filterValue) !== -1;
+        return nameContains || numberContains;
+    };
+
+    handleFilterChange = (event) => {
+        this.setState({
+            filter: event.target.value
+        });
+    };
+
     handleNumberChange = (event) => {
         this.setState({
             newNumber: event.target.value
@@ -56,6 +76,8 @@ class App extends React.Component {
     };
 
     render() {
+        const filteredPersons = this.state.persons.filter(this.filterPerson);
+
         return (
             <div>
                 <h2>Puhelinluettelo</h2>
@@ -63,12 +85,12 @@ class App extends React.Component {
                     <div>
                         Nimi:
                         <input value={this.state.newName}
-                        onChange={this.handleNameChange}/>
+                               onChange={this.handleNameChange}/>
                     </div>
                     <div>
                         Numbero:
                         <input value={this.state.newNumber}
-                        onChange={this.handleNumberChange}/>
+                               onChange={this.handleNumberChange}/>
                     </div>
                     <div>
                         <button type="submit">Lisää</button>
@@ -78,7 +100,13 @@ class App extends React.Component {
 
                 <h2>Numerot</h2>
 
-                {this.state.persons.map(person => <Person key={person.name} person={person} />)}
+                <div>
+                    Rajaa näytettäviä:
+                    <input value={this.state.filter}
+                           onChange={this.handleFilterChange} />
+                </div>
+
+                {filteredPersons.map(person => <Person key={person.name} person={person} />)}
 
             </div>
         )
