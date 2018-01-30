@@ -17,6 +17,31 @@ const Input = ({title, value, onChange}) => {
     )
 };
 
+const Persons = ({filter, handleFilterChange, persons}) => {
+
+    const filterPerson = (person) => {
+        const filterValue = filter.toLowerCase();
+        const lowerCaseName = person.name.toLowerCase();
+        const lowerCaseNumber = person.number.toLowerCase();
+
+        const nameContains = lowerCaseName.indexOf(filterValue) !== -1;
+        const numberContains = lowerCaseNumber.indexOf(filterValue) !== -1;
+        return nameContains || numberContains;
+    };
+
+    const filteredPersons = persons.filter(filterPerson);
+
+    return (
+        <div>
+            <h2>Numerot</h2>
+
+            <Input title="Rajaa näytettäviä: " value={filter} onChange={handleFilterChange}/>
+
+            {filteredPersons.map(person => <Person key={person.name} person={person} />)}
+        </div>
+    )
+};
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -63,15 +88,6 @@ class App extends React.Component {
         });
     };
 
-    filterPerson = (person) => {
-        const filterValue = this.state.filter.toLowerCase();
-        const lowerCaseName = person.name.toLowerCase();
-        const lowerCaseNumber = person.number.toLowerCase();
-
-        const nameContains = lowerCaseName.indexOf(filterValue) !== -1;
-        const numberContains = lowerCaseNumber.indexOf(filterValue) !== -1;
-        return nameContains || numberContains;
-    };
 
     handleFilterChange = (event) => {
         this.setState({
@@ -86,17 +102,12 @@ class App extends React.Component {
     };
 
     render() {
-        const filteredPersons = this.state.persons.filter(this.filterPerson);
 
         return (
             <div>
                 <h1>Puhelinluettelo</h1>
 
-                <h2>Numerot</h2>
-
-                <Input title="Rajaa näytettäviä: " value={this.state.filter} onChange={this.handleFilterChange}/>
-
-                {filteredPersons.map(person => <Person key={person.name} person={person} />)}
+                <Persons filter={this.state.filter} handleFilterChange={this.handleFilterChange} persons={this.state.persons}/>
 
                 <h2>Lisää uusi</h2>
                 <form onSubmit={this.addNewPerson}>
