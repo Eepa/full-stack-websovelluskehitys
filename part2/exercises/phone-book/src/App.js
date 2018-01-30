@@ -3,7 +3,7 @@ import React from 'react';
 
 const Person = ({person}) => {
     return(
-        <div>{person.name}</div>
+        <div>{person.name} {person.number}</div>
     )
 };
 
@@ -12,9 +12,10 @@ class App extends React.Component {
         super(props);
         this.state = {
             persons: [
-                { name: 'Arto Hellas' }
+                { name: 'Arto Hellas', number: '123-123' }
             ],
-            newName: ''
+            newName: '',
+            newNumber: ''
         }
     }
 
@@ -27,15 +28,17 @@ class App extends React.Component {
 
         const personsContainsPersonWithName = this.state.persons.some(this.nameEquals);
 
-        if(this.state.newName !== '' && !personsContainsPersonWithName) {
+        if(this.state.newName !== '' && !personsContainsPersonWithName && this.state.newNumber !== '') {
             const newPerson = {
-                name: this.state.newName
+                name: this.state.newName,
+                number: this.state.newNumber
             };
             const persons = this.state.persons.concat(newPerson);
 
             this.setState({
                 persons,
-                newName: ''
+                newName: '',
+                newNumber: ''
             })
         }
     };
@@ -43,6 +46,12 @@ class App extends React.Component {
     handleNameChange = (event) => {
         this.setState({
             newName: event.target.value
+        });
+    };
+
+    handleNumberChange = (event) => {
+        this.setState({
+            newNumber: event.target.value
         });
     };
 
@@ -55,6 +64,11 @@ class App extends React.Component {
                         Nimi:
                         <input value={this.state.newName}
                         onChange={this.handleNameChange}/>
+                    </div>
+                    <div>
+                        Numbero:
+                        <input value={this.state.newNumber}
+                        onChange={this.handleNumberChange}/>
                     </div>
                     <div>
                         <button type="submit">Lisää</button>
