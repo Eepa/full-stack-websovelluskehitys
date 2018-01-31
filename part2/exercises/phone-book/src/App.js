@@ -77,6 +77,17 @@ class App extends React.Component {
                     setTimeout(() => {
                         this.setState({success: null})
                     }, 5000);
+                })
+                .catch(error => {
+                    alert("Henkilö, jonka tietoja yritit muuttaa, on jo poistettu");
+                    personService
+                        .getAll()
+                        .then(persons => {
+                            this.setState({
+                                persons
+                            });
+
+                        });
                 });
         }
 
@@ -143,7 +154,7 @@ class App extends React.Component {
                     handlePersonsChange={this.handlePersonsChange}
                 />
 
-                <h2>Lisää uusi</h2>
+                <h2>Lisää uusi / muuta olemassa olevaa numeroa</h2>
                 <form onSubmit={this.addPerson}>
                     <Input title="Nimi: " value={this.state.newName} onChange={this.handleNameChange}/>
                     <Input title="Numero: " value={this.state.newNumber} onChange={this.handleNumberChange}/>
