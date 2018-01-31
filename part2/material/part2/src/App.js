@@ -31,16 +31,17 @@ class App extends React.Component {
         const newNote = {
             content: this.state.newNote,
             date: new Date().new,
-            important: Math.random() > 0.5,
-            id: this.state.notes.length + 1
+            important: Math.random() > 0.5
         };
 
-        const notes = this.state.notes.concat(newNote);
+        axios.post('http://localhost:3001/notes', newNote)
+            .then(response => {
+                this.setState({
+                    notes: this.state.notes.concat(response.data),
+                    newNote: ''
+                })
+            });
 
-        this.setState({
-            notes,
-            newNote: ''
-        })
     };
 
     handleNoteChange = (event) => {
