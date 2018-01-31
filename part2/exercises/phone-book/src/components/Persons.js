@@ -1,14 +1,15 @@
 import React from 'react'
 import Input from './Input'
+import personService from '../services/persons'
 
-const Person = ({person}) => {
+const Person = ({person, deletePerson}) => {
     return(
-        <div>{person.name} {person.number}</div>
+        <div>{person.name} {person.number} <button onClick={deletePerson}>Poista</button></div>
     )
 };
 
 
-const Persons = ({filter, handleFilterChange, persons}) => {
+const Persons = ({filter, handleFilterChange, persons, handlePersonsChange}) => {
 
     const filterPerson = (person) => {
         const filterValue = filter.toLowerCase();
@@ -22,13 +23,29 @@ const Persons = ({filter, handleFilterChange, persons}) => {
 
     const filteredPersons = persons.filter(filterPerson);
 
+    const deletePerson = (person) => {
+        return () => {
+            if(window.confirm(`Poistetaanko ${person.name}`)) {
+                personService
+                    .deletePerson(person.id)
+                    .then(response => {
+                        handlePersonsChange(person.id);
+                    });
+            }
+        }
+    };
+
     return (
         <div>
             <h2>Numerot</h2>
 
             <Input title="Rajaa näytettäviä: " value={filter} onChange={handleFilterChange}/>
 
-            {filteredPersons.map(person => <Person key={person.name} person={person} />)}
+            {filteredPersons.map(person => <Person
+                key={person.name}
+                person={person}
+                deletePerson={deletePerson(person)}
+            />)}
         </div>
     )
 };

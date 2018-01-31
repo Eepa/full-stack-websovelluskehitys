@@ -72,13 +72,24 @@ class App extends React.Component {
         });
     };
 
+    handlePersonsChange = (id) => {
+        this.setState({
+            persons: this.state.persons.filter(person => person.id !== id)
+        })
+    };
+
     render() {
 
         return (
             <div>
                 <h1>Puhelinluettelo</h1>
 
-                <Persons filter={this.state.filter} handleFilterChange={this.handleFilterChange} persons={this.state.persons}/>
+                <Persons
+                    filter={this.state.filter}
+                    handleFilterChange={this.handleFilterChange}
+                    persons={this.state.persons}
+                    handlePersonsChange={this.handlePersonsChange}
+                />
 
                 <h2>Lisää uusi</h2>
                 <form onSubmit={this.addNewPerson}>
