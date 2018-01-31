@@ -2,13 +2,25 @@ import React from 'react'
 import Note from './components/Note'
 import noteService from './services/notes'
 
+const Notification = ({message}) => {
+    if (message === null) {
+        return null;
+    }
+    return (
+        <div className="error">
+            {message}
+        </div>
+    )
+};
+
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             notes: [],
             newNote: '',
-            showAll: true
+            showAll: true,
+            error: null
         };
         console.log("Constructor");
     }
@@ -40,10 +52,13 @@ class App extends React.Component {
                   })
               })
               .catch(error => {
-                  alert(`Muistiinpano '${note.content}' on jo valitettavasti poistettu palvelimelta`);
                   this.setState({
+                      error: `Muistiinpano '${note.content}' on jo valitettavasti poistettu palvelimelta`,
                       notes: this.state.notes.filter(n => n.id !== id)
-                  })
+                  });
+                  setTimeout(() => {
+                     this.setState({error: null})
+                  }, 5000);
               })
       }
     };
@@ -92,6 +107,8 @@ class App extends React.Component {
         return (
             <div>
                 <h1>Muistiinpanot</h1>
+
+                <Notification message={this.state.error}/>
 
                 <div>
                     <button onClick={this.toggleVisible}>
