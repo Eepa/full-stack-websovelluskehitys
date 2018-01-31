@@ -31,27 +31,47 @@ class App extends React.Component {
         return person.name === this.state.newName;
     };
 
-    addNewPerson = (event) => {
-        event.preventDefault();
+    addNewPerson = () => {
+        const newPerson = {
+            name: this.state.newName,
+            number: this.state.newNumber
+        };
 
-        const personsContainsPersonWithName = this.state.persons.some(this.nameEquals);
+        personService
+            .create(newPerson)
+            .then(newPerson => {
+                const persons = this.state.persons.concat(newPerson);
 
-        if(this.state.newName !== '' && !personsContainsPersonWithName && this.state.newNumber !== '') {
-            const newPerson = {
-                name: this.state.newName,
-                number: this.state.newNumber
-            };
+                this.setState({
+                    persons,
+                    newName: '',
+                    newNumber: '',
+                    success: `Lisättiin '${newPerson.name}'`
+                });
+
+                setTimeout(() => {
+                    this.setState({success: null})
+                }, 5000);
+            });
+    };
+
+    updatePerson = () => {
+
+        if(window.confirm(`${this.state.newName} on jo luettelossa, korvataanko vanha numero uudella?`)) {
+            const person = this.state.persons.find(person => person.name === this.state.newName);
+            const updatedPerson = {...person, number: this.state.newNumber};
 
             personService
-                .create(newPerson)
-                .then(newPerson => {
-                    const persons = this.state.persons.concat(newPerson);
+                .update(updatedPerson)
+                .then(updatedPerson => {
+
+                    const persons = this.state.persons.filter(person => person.id !== updatedPerson.id);
 
                     this.setState({
-                        persons,
+                        persons: persons.concat(updatedPerson),
                         newName: '',
                         newNumber: '',
-                        success: `Lisättiin '${newPerson.name}'`
+                        success: `Päivitettiin '${updatedPerson.name}'`
                     });
 
                     setTimeout(() => {
@@ -59,7 +79,25 @@ class App extends React.Component {
                     }, 5000);
                 });
         }
+
     };
+
+    addPerson = (event) => {
+        event.preventDefault();
+
+        const personsContainsPersonWithName = this.state.persons.some(this.nameEquals);
+
+        if(this.state.newName !== '' && this.state.newNumber !== '') {
+
+            if(!personsContainsPersonWithName) {
+                this.addNewPerson();
+            } else {
+                this.updatePerson();
+            }
+
+        }
+    };
+
 
     handleNameChange = (event) => {
         this.setState({
@@ -106,7 +144,7 @@ class App extends React.Component {
                 />
 
                 <h2>Lisää uusi</h2>
-                <form onSubmit={this.addNewPerson}>
+                <form onSubmit={this.addPerson}>
                     <Input title="Nimi: " value={this.state.newName} onChange={this.handleNameChange}/>
                     <Input title="Numero: " value={this.state.newNumber} onChange={this.handleNumberChange}/>
 
