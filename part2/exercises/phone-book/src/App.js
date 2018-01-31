@@ -1,6 +1,7 @@
 import React from 'react';
 import Persons from './components/Persons'
 import Input from './components/Input'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 class App extends React.Component {
@@ -10,7 +11,8 @@ class App extends React.Component {
             persons: [],
             newName: '',
             newNumber: '',
-            filter: ''
+            filter: '',
+            success: null
         }
     }
 
@@ -48,8 +50,13 @@ class App extends React.Component {
                     this.setState({
                         persons,
                         newName: '',
-                        newNumber: ''
-                    })
+                        newNumber: '',
+                        success: `Lisättiin '${newPerson.name}'`
+                    });
+
+                    setTimeout(() => {
+                        this.setState({success: null})
+                    }, 5000);
                 });
         }
     };
@@ -72,10 +79,15 @@ class App extends React.Component {
         });
     };
 
-    handlePersonsChange = (id) => {
+    handlePersonsChange = (changedPerson) => {
         this.setState({
-            persons: this.state.persons.filter(person => person.id !== id)
-        })
+            persons: this.state.persons.filter(person => person.id !== changedPerson.id),
+            success: `Poistettiin '${changedPerson.name}'`
+        });
+
+        setTimeout(() => {
+            this.setState({success: null})
+        }, 5000);
     };
 
     render() {
@@ -83,6 +95,8 @@ class App extends React.Component {
         return (
             <div>
                 <h1>Puhelinluettelo</h1>
+
+                <Notification message={this.state.success}/>
 
                 <Persons
                     filter={this.state.filter}

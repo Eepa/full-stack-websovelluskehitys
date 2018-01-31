@@ -29,7 +29,7 @@ const Persons = ({filter, handleFilterChange, persons, handlePersonsChange}) => 
                 personService
                     .deletePerson(person.id)
                     .then(response => {
-                        handlePersonsChange(person.id);
+                        handlePersonsChange(person);
                     });
             }
         }
