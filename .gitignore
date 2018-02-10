@@ -2,3 +2,4 @@
 .gitignore
 .idea/
 *.iml
+/part3/material/notebackend/node_modules/
