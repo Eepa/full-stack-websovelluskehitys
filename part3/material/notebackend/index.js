@@ -1,5 +1,8 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
 
 let notes = [
     {
@@ -28,6 +31,48 @@ app.get('/', (request, response) => {
 
 app.get('/notes', (request, response) =>  {
     response.json(notes);
+});
+
+app.get('/notes/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const note = notes.find(note => {
+        return note.id === id
+    });
+
+    if(note) {
+        res.json(note);
+    } else {
+        res.status(404).end();
+    }
+});
+
+const generateId = () => {
+    const maxId = notes.length > 0 ? notes.map(n => n.id).sort().reverse()[0] : 1;
+    return maxId + 1;
+};
+
+app.post('/notes', (req, res) => {
+    const body = req.body;
+
+    if(body.content === undefined) {
+        return res.status(400).json({error: "Content missing"});
+    }
+
+    const note = {
+      content: body.content,
+      important: body.important || false,
+      date: new Date(),
+      id: generateId()
+    };
+
+    notes = notes.concat(note);
+    res.json(note);
+});
+
+app.delete('/notes/:id', (req, res) => {
+    const id = Number(req.params.id);
+    notes = notes.filter(note => note.id !== id);
+    res.status(204).end();
 });
 
 const PORT = 3001;
