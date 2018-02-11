@@ -2,7 +2,16 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
+const logger = (request, response, next) => {
+    console.log('Method: ', request.method);
+    console.log('Path:   ', request.path);
+    console.log('Body:   ', request.body);
+    console.log('---');
+    next();
+};
+
 app.use(bodyParser.json());
+app.use(logger);
 
 let notes = [
     {
@@ -59,10 +68,10 @@ app.post('/notes', (req, res) => {
     }
 
     const note = {
-      content: body.content,
-      important: body.important || false,
-      date: new Date(),
-      id: generateId()
+        content: body.content,
+        important: body.important || false,
+        date: new Date(),
+        id: generateId()
     };
 
     notes = notes.concat(note);
@@ -74,6 +83,12 @@ app.delete('/notes/:id', (req, res) => {
     notes = notes.filter(note => note.id !== id);
     res.status(204).end();
 });
+
+const error = (request, response) => {
+  response.status(404).json({error: 'Unknown endpoint'});
+};
+
+app.use(error);
 
 const PORT = 3001;
 app.listen(PORT, () => {
