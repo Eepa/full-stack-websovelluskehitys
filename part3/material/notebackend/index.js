@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
+app.use(cors());
+app.use(express.static('build'));
 
 const logger = (request, response, next) => {
     console.log('Method: ', request.method);
@@ -90,8 +94,7 @@ const error = (request, response) => {
 
 app.use(error);
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`)
 });
-
