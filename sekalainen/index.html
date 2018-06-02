@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Course Management</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        section {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #eee;
+        }
+        
+        #output {
+            background-color: #eee;
+            border-color: #ddd;
+            min-height: 100px;
+            position: relative;
+            padding-top: 25px;
+        }
+        
+        #output:before {
+            content: "Output";
+            display: inline-block;
+            position: absolute;
+            background-color: #555;
+            color: #fff;
+            padding: 3px 6px;
+            top: 0;
+            left: 0;
+            border-bottom-right-radius: 5px;
+            font-size: 10px;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <section>
+            <input type="button" value="Get all students" name="get-all" id="get-all">
+        </section>
+        <section>
+            <input type="text" name="get-one-id" id="get-one-id" placeholder="ID">
+            <input type="button" name="get-one-submit" id="get-one-submit" value="Get student by ID">
+        </section>
+        <section>
+            <input type="text" name="add-id" id="add-id" placeholder="ID">
+            <input type="button" name="add-submit" id="add-submit" value="Add new student">
+        </section>
+        <section>
+            <input type="text" name="remove-id" id="remove-id" placeholder="ID">
+            <input type="button" name="remove-submit" id="remove-submit" value="Remove student">
+        </section>
+        <section>
+            <input type="text" name="mark-done-id" id="mark-done-id" placeholder="ID">
+            <input type="text" name="mark-done-name" id="mark-done-name" placeholder="Task">
+            <input type="button" name="mark-done-submit" id="mark-done-submit" value="Mark task done">
+        </section>
+        <section id="output">
+
+        </section>
+    </div>
+</body>
+
+</html>

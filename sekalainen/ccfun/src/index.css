@@ -1,0 +1,36 @@
+body {
+  font-family: sans-serif;
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+section {
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid #eee;
+}
+
+#output {
+  background-color: #eee;
+  border-color: #ddd;
+  min-height: 100px;
+  position: relative;
+  padding-top: 25px;
+}
+
+#output:before {
+  content: "Output";
+  display: inline-block;
+  position: absolute;
+  background-color: #555;
+  color: #fff;
+  padding: 3px 6px;
+  top: 0;
+  left: 0;
+  border-bottom-right-radius: 5px;
+  font-size: 10px;
+  font-family: sans-serif;
+}
